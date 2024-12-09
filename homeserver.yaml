@@ -1,0 +1,393 @@
+
+# Describes itself
+server_name: chat.lucielle.ch
+
+# selfdescribing
+public_baseurl: https://chat.lucielle.ch
+
+# set to true to informe servers that federation 
+# goes through port 443 of public_baseurl
+serve_server_wellknown: true
+
+# TO FILL LATER ON TODO
+extra_well_known_client_content :
+  option1: value1
+  option2: value2
+
+# Users can see if other users are online
+presence:
+  enabled: true
+  include_offline_users_on_sync: false
+
+# Apps and people need to be logged in to lookup user
+# profile info (weeds out certain bots and data miners)
+require_auth_for_profile_requests: true
+
+# Does not allow public rooms without authentification
+allow_public_rooms_without_auth: false
+
+# Allow federation
+allow_public_rooms_over_federation: true
+
+# Default room version
+# This decision might break compatibilit with older servers
+# I'll change if I see to many breaks
+# According to the doc it should at least be version 10
+default_room_version: "11"
+
+# I don't fully understand what it does but it seems a good 
+# idea not to have to none like it defaults to
+gc_thresholds: [700, 10, 10]
+
+# Time elapsed between 2 garbage collection
+gc_min_interval: [1s, 10s, 30s]
+
+# Admins of discussion should ba able to choose
+# if non-admin people can invite so I set it to false.
+block_non_admin_invites: false
+
+# Allow searches for messages
+enable_search: true
+
+
+listeners:
+  # Listens to port 8008 for both client and federation
+  # TLS is false because I use a Nginx proxy
+  # x_forwarded is true to allow use of the Nginx proxy
+  - port: 8008
+    type: http
+    tls: false
+    x_forwarded: true
+    request_id_header: true
+    resources:
+      - names: [client, federation, keys, media]
+
+  # Listens to port 8448 for metrics
+  # Needs Nginx to send a specific url path to this port
+  - port: 8448
+    type: http
+    tls: false
+    x_forwarded: true
+    request_id_header: true
+    ressources:
+      - names: [metrics]
+
+# Surely I should say why I chose the default but I don't
+# quite understand that at the moment, so I put it here 
+# in hopes I'll learn about it later and change that
+dummy_events_threshold: 10
+
+# If not used for 6 months, the device will be prunned
+delete_stale_devices_after: 24w
+
+# Allow to delay events for 48h max
+max_event_delay_duration: 48h
+
+# Where to contact the admin
+admin_contact: 'mailto:pro@lucielle.ch'
+
+# Set to default because I don't get it
+hs_disabled: false
+
+# Set to false because I don't intend this to a lot of users
+# and so it should not be a problem
+limit_usage_by_mau: false
+
+# Used the default because again, small server and won't be a problem
+mau_trial_days: 0
+
+# Set to false since I don't limit usage by MAU
+mau_limit_alerting: false
+
+# Set to true because I wanna play with metrics
+mau_stats_only: true
+
+# Uncomment and populate if I set a MAU limit
+# mau_limit_reserved_threepids:
+#  - medium: 'email'
+#    address: 'email@example.com'
+
+# I wanna keep stats so ser to context
+server_context: context
+
+# set to default, it's here if I wanna change it later
+require_membership_for_aliases: true
+
+# set to default, is here to be able to change it later
+allow_per_room_profiles: true
+
+# set limit to 20M to user avatars
+max_avatar_size: 10M
+
+# Uncomment if I ever want to restrict mimetypes
+# allowed_avatar_mimetypes: ["image/png", "image/jpeg", "image/gif"]
+
+# Set to default but here for me to change if necessary
+redaction_retention_period: 7d
+
+# set to 28d, after which the rooms will be deleted
+forgotten_room_retention_period: 28d
+
+# Set to default but here for me to change if there's laws
+# surrounding this retention
+user_ips_max_age: 14d
+
+# Set to true in order to hide if the e-mail has indeed an account
+# This is a step to avoid leaking personal information
+request_token_inhibit_3pid_errors: true
+
+# Set to my own server because why not ?
+next_link_domain_whitelist: ["chat.lucielle.ch", "cinny.lucielle.ch"]
+
+# Set the templates folder for me to change and have
+# a cute template to great people
+templates:
+  custom_template_directory: /data/templates/
+
+# For retention policy,: 
+# https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html?search=#retention
+# Please check laws in your country before setting this up
+
+# Uncomment if you wanna restrict federation to only some servers
+# federation_domain_whitelist:
+#  - lon.example.com
+#  - nyc.example.com
+#  - syd.example.com
+
+
+# Allows to check if this server has a whitelist
+federation_whitelist_endpoint_enabled: true
+
+# default value, if I wanna change it later
+allow_profile_lookup_over_federation: true
+
+# Set to false in order to keep privacy to my users
+allow_device_name_lookup_over_federation: false
+
+# Set to default but is there in case of problems
+# or changes I wanna do
+federation:
+  client_timeout: 60s
+  max_short_retry_delay: 2s
+  max_long_retry_delay: 60s
+  max_short_retries: 3
+  max_long_retries: 10
+  destination_min_retry_interval: 10m
+  destination_retry_multiplier: 2
+  destination_max_retry_interval: 1w
+
+# Set to default but here if I want to upgrade
+event_cache_size: 10K
+chaches:
+  global_factor 0.5
+
+# Set the parameters for my postgresql server
+# as described in my postgres-docker repository
+database:
+  name: psycopg2
+  args:
+    user: synapse
+    password: <pass> # Change this
+    dbname: synapse
+    host: 10.0.0.20
+    port: 5432
+    cp_min: 5
+    cp_max: 10
+
+# Where do I keep the logs
+log_config: "CONFDIR/logs/SERVERNAME.log.config"
+
+# Rate limiting
+# Default is used but here to be changed
+rc_message:
+  per_second: 1
+  burst_count: 10
+
+rc_admin_redaction:
+  per_second: 1
+  burst_count: 50
+
+rc_registration:
+  per_second: 0.17
+  burst_count: 3
+
+rc_registration_token_validity:
+  per_second: 0.1
+  burst_count: 5
+
+rc_login:
+  address:
+    per_second: 0.003
+    burst_count: 5
+  account:
+    per_second: 0.003
+    burst_count: 5
+  failed_attempts:
+    per_second: 0.17
+    burst_count: 3
+
+rc_joins:
+  local:
+    per_second: 0.1
+    burst_count: 10
+  remote:
+    per_second: 0.01
+    burst_count: 10
+
+rc_joins_per_room:
+  per_second: 1
+  burst_count: 10
+
+rc_3pid_validation:
+  per_second: 0.003
+  burst_count: 5
+
+rc_invites:
+  per_room:
+    per_second: 0.3
+    burst_count: 10
+  per_user:
+    per_second: 0.003
+    burst_count: 5
+  per_issuer:
+    per_second: 0.3
+    burst_count: 10
+
+rc_third_party_invite:
+  per_second: 0.2
+  burst_count: 10
+
+rc_media_create:
+  per_second: 10
+  burst_count: 50
+
+rc_federation:
+  window_size: 1000
+  sleep_limit: 10
+  sleep_delay: 500
+  reject_limit: 50
+  concurrent: 3
+
+# Set to default to change later on
+federation_rr_transactions_per_room_per_second: 50
+
+# With the same mindset that I want to
+# weed data miners out, it's set to true
+enable_authenticated_media: true
+
+# I'll use synapse's data store
+enable_media_repo: true
+media_store_path: "DATADIR/media_store"
+
+# Set to default
+max_pending_media_uploads: 5
+
+# Set to default
+unused_expiration_time: "24h"
+
+# Was set to 60M in previous server and worked well
+max_upload_size: 60M
+
+# Set to default
+max_image_pixels: 32M
+
+# Set to default
+remote_media_download_burst_count: 500M
+
+# Set to default
+remote_media_download_per_second: 87K
+
+# Uncomment to block servers from downloading media
+#prevent_media_downloads_from:
+#  - evil.example.org
+#  - evil2.example.org
+
+# Set to default
+dynamic_thumbnails: false
+
+# Set to the manual example
+thumbnail_sizes:
+  - width: 32
+    height: 32
+    method: crop
+  - width: 96
+    height: 96
+    method: crop
+  - width: 320
+    height: 240
+    method: scale
+  - width: 640
+    height: 480
+    method: scale
+  - width: 800
+    height: 600
+    method: scale
+
+# Uncomment if there needs to be a media purge
+# after given time
+#media_retention:
+#    local_media_lifetime: 90d
+#    remote_media_lifetime: 14d
+
+# self describing
+url_preview_enabled: true
+url_preview_ip_range_blacklist:
+  - '127.0.0.0/8'
+  - '10.0.0.0/8'
+  - '172.16.0.0/12'
+  - '192.168.0.0/16'
+  - '100.64.0.0/10'
+  - '192.0.0.0/24'
+  - '169.254.0.0/16'
+  - '192.88.99.0/24'
+  - '198.18.0.0/15'
+  - '192.0.2.0/24'
+  - '198.51.100.0/24'
+  - '203.0.113.0/24'
+  - '224.0.0.0/4'
+  - '::1/128'
+  - 'fe80::/10'
+  - 'fc00::/7'
+  - '2001:db8::/32'
+  - 'ff00::/8'
+  - 'fec0::/10'
+
+url_preview_url_blacklist:
+  # blacklist all plain HTTP URLs
+  - scheme: 'http'
+
+  # blacklist any URL with a literal IPv4 address
+  - netloc: '^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$'
+
+# Set to default
+max_spider_size: 10M
+
+# CONTINUE HERE : https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html?search=#federation_whitelist_endpoint_enabled
+
+# SMTP configuration to allow password changes and notification
+email:
+  smtp_host: mail.infomaniak.com
+  smtp_port: 465
+  smtp_user: cloud.no-reply@lucielle.ch
+  smtp_pass: # TODO set the password
+  force_tls: true
+  enable_notifs: true
+  notif_from: cloud.no-reply@lucielle.ch
+  notif_for_new_users: false
+  notif_delay_before_mail: 1d
+  client_base_url: https://chat.lucielle.ch
+  validation_token_lifetime: 15m
+  invite_client_location: https://cinny.lucielle.ch
+  app_name: chat.lucielle.ch
+
+  subjects:
+    message_from_person_in_room: "[%(app)s] You have a message on %(app)s from %(person)s in the %(room)s room..."
+    message_from_person: "[%(app)s] You have a message on %(app)s from %(person)s..."
+    messages_from_person: "[%(app)s] You have messages on %(app)s from %(person)s..."
+    messages_in_room: "[%(app)s] You have messages on %(app)s in the %(room)s room..."
+    messages_in_room_and_others: "[%(app)s] You have messages on %(app)s in the %(room)s room and others..."
+    messages_from_person_and_others: "[%(app)s] You have messages on %(app)s from %(person)s and others..."
+    invite_from_person_to_room: "[%(app)s] %(person)s has invited you to join the %(room)s room on %(app)s..."
+    invite_from_person: "[%(app)s] %(person)s has invited you to chat on %(app)s..."
+    password_reset: "[%(server_name)s] Password reset"
+    email_validation: "[%(server_name)s] Validate your email"
