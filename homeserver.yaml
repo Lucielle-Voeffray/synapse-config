@@ -91,7 +91,7 @@ listeners:
     x_forwarded: true
     request_id_header: true
     resources:
-      - names: [client, federation, keys, media]
+      - names: [client, federation, keys, media, consent]
 
   # Listens to port 8448 for metrics
   # Needs Nginx to send a specific url path to this port
@@ -439,10 +439,6 @@ enable_set_avatar_url: true
 # Let users change their e-mail address and other 3pid
 enable_3pid_changes: true 
 
-# Users auto-join the listed rooms
-auto_join_rooms:
-  - "#serverUpdates:chat.lucielle.ch"
-
 # Autocreate the rooms in the auto-join list
 autocreate_auto_join_rooms: true 
 
@@ -479,7 +475,90 @@ login_via_existing_session:
 # Disabled for security reasons
 use_appservice_legacy_authorization: false 
 
+# Signing key
+signing_key_path: "CONFDIR/keys/SERVERNAME.signing.key"
 
+# set to default
+key_refresh_interval: 1d
+
+# No single logins, I don't like them
+
+push:
+  enabled: true
+  include_content: false
+  group_unread_count_by_room: false
+  jitter_delay: "0s"
+
+# enable encryption by default for all local rooms
+encryption_enabled_by_default_for_room_type: all
+
+# Users can search for users on this server
+user_directory:
+    enabled: true
+    search_all_users: true
+    prefer_local_users: true
+    show_locked_users: true
+
+# Enable user consent
+user_consent:
+  template_dir: /data/templates/privacy-policy
+  version: 1.0
+  require_at_registration: true
+  policy_name: "Privacy policy for chat.lucielle.ch"
+  server_notice_content:
+    msgtype: m.text
+    body: >-
+      To continue using this homeserver you must review and agree to the
+      terms and conditions at %(consent_uri)s
+  block_events_error: >-
+    To continue using this homeserver you must review and agree to the
+    terms and conditions at %(consent_uri)s
+
+# form secret
+form_secret: "PASS (min 30 char)"
+
+# set to default
+stats:
+  enabled: true 
+
+# Server notices
+server_notices:
+  system_mxid_localpart: notices
+  system_mxid_display_name: "Server announcments"
+  system_mxid_avatar_url: TODO
+  room_name: "Server Notices"
+  room_avatar_url: TODO
+  room_topic: "This room exists so you can stay informed about the server's changes"
+  auto_join: true
+
+# Enable browsing of public rooms
+enable_room_list_search: true 
+
+# All alliases are permitted
+alias_creation_rules:
+  - "action": "allow"
+
+# All public rooms are authorized
+room_list_publication_rules:
+  - "action": "allow"
+
+# Don't forget rooms on leave/ban/kick
+forget_rooms_on_leave: false
+
+# set something, better have a sercret than non
+worker_replication_secret: "PASS"
+
+# Set to default
+background_updates:
+    background_update_duration_ms: 100
+    sleep_enabled: true
+    sleep_duration_ms: 1000
+    min_batch_size: 1
+    default_batch_size: 100
+
+# obvious
+auto_accept_invites:
+    enabled: false
 
 # SMTP configuration to allow password changes and notification
 email:
