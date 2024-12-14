@@ -1,3 +1,34 @@
+#  * Copyright or © or Copr. Lucielle <pro@lucielle.ch> (2024 - 3024)
+#  *
+#  * This yaml file is all the settings to setup a Matrix-Synapse instance
+#  * the same way https://chat.lucielle.ch is setup.
+#  *
+#  * This software is governed by the CeCILL license under French law and
+#  * abiding by the rules of distribution of free software.  You can  use,
+#  * modify and/ or redistribute the software under the terms of the CeCILL
+#  * license as circulated by CEA, CNRS and INRIA at the following URL
+#  * "http://www.cecill.info".
+#  *
+#  * As a counterpart to the access to the source code and  rights to copy,
+#  * modify and redistribute granted by the license, users are provided only
+#  * with a limited warranty  and the software's author,  the holder of the
+#  * economic rights,  and the successive licensors  have only  limited
+#  * liability.
+#  *
+#  * In this respect, the user's attention is drawn to the risks associated
+#  * with loading,  using,  modifying and/or developing or reproducing the
+#  * software by the user in light of its specific status of free software,
+#  * that may mean  that it is complicated to manipulate,  and  that  also
+#  * therefore means  that it is reserved for developers  and  experienced
+#  * professionals having in-depth computer knowledge. Users are therefore
+#  * encouraged to load and test the software's suitability as regards their
+#  * requirements in conditions enabling the security of their systems and/or
+#  * data to be ensured and,  more generally, to use and operate it in the
+#  * same conditions as regards security.
+#  *
+#  * The fact that you are presently reading this means that you have had
+#  * knowledge of the CeCILL license and that you accept its terms.
+
 
 # Describes itself
 server_name: chat.lucielle.ch
@@ -362,7 +393,93 @@ url_preview_url_blacklist:
 # Set to default
 max_spider_size: 10M
 
-# CONTINUE HERE : https://element-hq.github.io/synapse/latest/usage/configuration/config_documentation.html?search=#federation_whitelist_endpoint_enabled
+# TURN server
+turn_uris: turn:relay1.expressturn.com:3478
+turn_username: "ef3RO2TYLIOI44GVR3"
+turn_password: "PASS"
+
+# Set to default
+turn_user_lifetime: 1h
+
+# Forces to be logged in to use the TURN server
+turn_allow_guests: false
+
+# Enable registration
+enable_registration: true
+
+# Default value used for obvious reasons
+enable_registration_without_verification: false
+
+# Recquire email verification
+registrations_require_3pid:
+  - email
+
+# Recquire a token created by the admin to log-in
+registration_requires_token: true
+
+# If ever needed for a script
+# registration_shared_secret: <PRIVATE STRING>
+
+# No guest user for obvious security and legal concerns
+allow_guest_access: false
+
+# Set to my own identity server
+# default_identity_server: https://matrix.org
+
+# uncomment If you want to enable phone number registration
+# account_threepid_delegates:
+#     msisdn: http://localhost:8090  # Delegate SMS sending to this local process
+
+# Let users choose their displayname
+enable_set_displayname: true
+
+# Let users change their avatar
+enable_set_avatar_url: true 
+
+# Let users change their e-mail address and other 3pid
+enable_3pid_changes: true 
+
+# Users auto-join the listed rooms
+auto_join_rooms:
+  - "#serverUpdates:chat.lucielle.ch"
+
+# Autocreate the rooms in the auto-join list
+autocreate_auto_join_rooms: true 
+
+# Allow federation on the auto-join rooms
+autocreate_auto_join_rooms_federated: true 
+
+# Set the auto-join room to public
+autocreate_auto_join_room_preset: public_chat
+
+# Guests are not auto-joined
+auto_join_rooms_for_guests: false
+
+# Show availability of the username on registration if set to false
+inhibit_user_in_use_error: false
+
+# Auto-logout people after X amount of time (starts counting at login not last time used)
+# Users will have to login every X amount of time
+session_lifetime: 4w
+
+# Set to default
+refreshable_access_token_lifetime: 5m
+
+# Default is infinite, I think 7 days should be good
+refresh_token_lifetime: 7d
+
+# Default is infinite, that can be a security issue
+# The user will have to login every X amount of time
+nonrefreshable_access_token_lifetime: 4w
+
+# For security reasons this is disabled
+login_via_existing_session:
+    enabled: false
+
+# Disabled for security reasons
+use_appservice_legacy_authorization: false 
+
+
 
 # SMTP configuration to allow password changes and notification
 email:
