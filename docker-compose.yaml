@@ -44,4 +44,4 @@ services:
     volumes:
       # Everything is stored in the system drive for the moment, if it needs 
       # more space it'll be placed on an external drive
-      - /home/anya/Services/synapse-2024/files:/data
+      - /home/anya/services/synapse/data:/data
