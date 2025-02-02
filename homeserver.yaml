@@ -217,7 +217,7 @@ chaches:
 database:
   name: psycopg2
   args:
-    user: synapse
+    user: matrix
     password: <pass> # Change this
     dbname: synapse
     host: 10.0.0.20
@@ -424,7 +424,7 @@ registration_requires_token: true
 allow_guest_access: false
 
 # Set to my own identity server
-# default_identity_server: https://matrix.org
+default_identity_server: https://matrix.org
 
 # uncomment If you want to enable phone number registration
 # account_threepid_delegates:
@@ -456,7 +456,7 @@ inhibit_user_in_use_error: false
 
 # Auto-logout people after X amount of time (starts counting at login not last time used)
 # Users will have to login every X amount of time
-session_lifetime: 4w
+session_lifetime: 16w
 
 # Set to default
 refreshable_access_token_lifetime: 5m
