@@ -525,7 +525,6 @@ stats:
 server_notices:
   system_mxid_localpart: notices
   system_mxid_display_name: "Server announcements"
-  system_mxid_avatar_url: TODO
   room_name: "Server Notices"
   room_topic: "This room exists so you can stay informed about the server's changes"
   auto_join: true
