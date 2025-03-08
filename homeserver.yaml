@@ -41,9 +41,9 @@ public_baseurl: https://chat.lucielle.ch
 serve_server_wellknown: true
 
 # TO FILL LATER ON TODO
-extra_well_known_client_content :
-  option1: value1
-  option2: value2
+# extra_well_known_client_content :
+#   option1: value1
+#   option2: value2
 
 # Users can see if other users are online
 presence:
@@ -218,7 +218,7 @@ database:
   name: psycopg2
   args:
     user: matrix
-    password: <pass> # Change this
+    password: <pass> # TODO
     dbname: synapse
     host: 10.0.0.20
     port: 5432
@@ -396,7 +396,7 @@ max_spider_size: 10M
 # TURN server
 turn_uris: turn:relay1.expressturn.com:3478
 turn_username: "ef3RO2TYLIOI44GVR3"
-turn_password: "PASS"
+turn_password: "PASS" # TODO
 
 # Set to default
 turn_user_lifetime: 1h
@@ -515,7 +515,7 @@ user_consent:
     terms and conditions at %(consent_uri)s
 
 # form secret
-form_secret: "PASS (min 30 char)"
+form_secret: "PASS (min 30 char)" # TODO
 
 # set to default
 stats:
@@ -527,7 +527,7 @@ server_notices:
   system_mxid_display_name: "Server announcments"
   system_mxid_avatar_url: TODO
   room_name: "Server Notices"
-  room_avatar_url: TODO
+  room_avatar_url: # TODO
   room_topic: "This room exists so you can stay informed about the server's changes"
   auto_join: true
 
@@ -546,7 +546,7 @@ room_list_publication_rules:
 forget_rooms_on_leave: false
 
 # set something, better have a sercret than non
-worker_replication_secret: "PASS"
+worker_replication_secret: "PASS" # TODO
 
 # Set to default
 background_updates:
@@ -564,11 +564,11 @@ auto_accept_invites:
 email:
   smtp_host: mail.infomaniak.com
   smtp_port: 465
-  smtp_user: cloud.no-reply@lucielle.ch
+  smtp_user: cloud+no-reply@lucielle.ch
   smtp_pass: # TODO set the password
   force_tls: true
   enable_notifs: true
-  notif_from: cloud.no-reply@lucielle.ch
+  notif_from: cloud+no-reply@lucielle.ch
   notif_for_new_users: false
   notif_delay_before_mail: 1d
   client_base_url: https://chat.lucielle.ch
