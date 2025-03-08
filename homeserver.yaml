@@ -524,7 +524,7 @@ stats:
 # Server notices
 server_notices:
   system_mxid_localpart: notices
-  system_mxid_display_name: "Server announcments"
+  system_mxid_display_name: "Server announcements"
   system_mxid_avatar_url: TODO
   room_name: "Server Notices"
   room_avatar_url: # TODO
