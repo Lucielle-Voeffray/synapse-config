@@ -49,6 +49,23 @@ services:
       server:
         ipv4_address: 10.0.0.10
 
+  admin_synapse:
+    synapse-admin:
+    container_name: synapse-admin
+    hostname: synapse-admin
+    build:
+      context: https://github.com/Awesome-Technologies/synapse-admin.git
+      args:
+        - BUILDKIT_CONTEXT_KEEP_GIT_DIR=1
+      #   - NODE_OPTIONS="--max_old_space_size=1024"
+      #   - BASE_PATH="/synapse-admin"
+    ports:
+      - "9999:80"
+    networks:
+      server:
+        ipv4_address: 10.0.0.13
+    restart: unless-stopped
+
 networks:
     server:
         external: true
