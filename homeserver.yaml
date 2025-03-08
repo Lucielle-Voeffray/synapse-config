@@ -500,19 +500,19 @@ user_directory:
     show_locked_users: true
 
 # Enable user consent
-user_consent:
-  template_dir: /data/templates/privacy-policy
-  version: 1.0
-  require_at_registration: true
-  policy_name: "Privacy policy for chat.lucielle.ch"
-  server_notice_content:
-    msgtype: m.text
-    body: >-
-      To continue using this homeserver you must review and agree to the
-      terms and conditions at %(consent_uri)s
-  block_events_error: >-
-    To continue using this homeserver you must review and agree to the
-    terms and conditions at %(consent_uri)s
+# user_consent:
+#   template_dir: /data/templates/privacy-policy
+#   version: 1.0
+#   require_at_registration: true
+#   policy_name: "Privacy policy for chat.lucielle.ch"
+#   server_notice_content:
+#     msgtype: m.text
+#     body: >-
+#       To continue using this homeserver you must review and agree to the
+#       terms and conditions at %(consent_uri)s
+#   block_events_error: >-
+#     To continue using this homeserver you must review and agree to the
+#     terms and conditions at %(consent_uri)s
 
 # form secret
 form_secret: "PASS (min 30 char)" # TODO
