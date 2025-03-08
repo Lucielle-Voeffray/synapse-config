@@ -527,7 +527,6 @@ server_notices:
   system_mxid_display_name: "Server announcements"
   system_mxid_avatar_url: TODO
   room_name: "Server Notices"
-  room_avatar_url: # TODO
   room_topic: "This room exists so you can stay informed about the server's changes"
   auto_join: true
 
